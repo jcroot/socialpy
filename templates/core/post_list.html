@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-6 text-center">
+            <img src="{% static "img/pytyvo.png" %}" class="img-fluid">
+        </div>
+        <div class="col-6">
+            <div class="text-center">
+                <img src="{% static "img/nangareko.png" %}" class="img-fluid">
+            </div>
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            <strong>Soy beneficiado?</strong>
+        </div>
+        <div class="card-body">
+            <form name="frmQuery" id="frmQuery" action="/request" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label class="col-form-label col-4 col-md-2 text-right">Ingrese CI:</label>
+                    <div class="col-8 col-md-4">
+                        <input type="text" value="" name="ci" id="ci" class="form-control">
+                    </div>
+                    <div class="col-12 col-md-4 text-center text-md-left pt-2 pt-md-0">
+                        <button class="btn btn-primary">Verificar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-success mt-2" style="display: none" role="alert">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span id="alert-msg"></span>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ci').focus();
+
+            $('.alert .close').on('click', function () {
+                $(this).parent().css('display', 'none');
+            });
+
+            $("#ci").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            });
+
+            $('#frmQuery').submit(function (evt) {
+                evt.preventDefault();
+                var $form = $(this);
+                /*if (!$form.valid())
+                    return;*/
+
+                var url = $form.attr('action');
+                /* Send the data using post */
+
+                $('.alert').removeClass('alert-success');
+                $('.alert').removeClass('alert-danger');
+
+                var posting = $.post(url, $form.serialize());
+                /* Put the results in a div */
+                posting.done(function (data) {
+                    $('.alert').addClass('alert-success');
+                    $('#alert-msg').empty().append(
+                        '<strong>Hola! ' + data.fullname + "</strong> estas en la lista de <strong>" + data.social_code + '<strong>'
+                    );
+                    $('.alert').show();
+                });
+
+                posting.fail(function (data) {
+                    $('.alert').addClass('alert-danger');
+                    $('#alert-msg').empty().append(
+                        '<strong>No encontramos tus datos! </strong> Al parecer tu cedula no fue incluido aun.'
+                    );
+                    $('.alert').show();
+                });
+
+            });
+        })
+    </script>
+
+{% endblock %}
