@@ -211,7 +211,6 @@ fabric.properties
 /.vscode
 __pycache__
 venv
-/static
 .DS_Store
 .idea
 conf/.env
