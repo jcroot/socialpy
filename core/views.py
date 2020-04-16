@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from .models import Post
+from .models import Post, SocialProgram
 
 
 # Create your views here.
@@ -20,7 +20,7 @@ def post_request(request):
 
         response_data['cic'] = cic
         response_data['fullname'] = post.fullname
-        response_data['social_code'] = post.social_code
+        response_data['social_code'] = SocialProgram.objects.get(code=post.social_code).description
 
         return JsonResponse(response_data)
 
