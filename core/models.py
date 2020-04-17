@@ -17,3 +17,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.fullname
+
+    class Meta:
+        unique_together = ['cic', 'social_code']
