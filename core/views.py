@@ -12,15 +12,22 @@ def post_list(request):
 def post_request(request):
     posts = Post.objects.all()
     response_data = {}
+    social_code = ''
+    fullname = ''
 
     if request.POST:
         cic = request.POST.get('ci')
 
-        post = get_object_or_404(Post, cic=cic)
+        # post = get_object_or_404(Post, cic=cic)
+        post_set = Post.objects.filter(cic=cic)
+
+        for result in post_set:
+            fullname = result.fullname
+            social_code += SocialProgram.objects.get(code=result.social_code).description + ' '
 
         response_data['cic'] = cic
-        response_data['fullname'] = post.fullname
-        response_data['social_code'] = SocialProgram.objects.get(code=post.social_code).description
+        response_data['fullname'] = fullname
+        response_data['social_code'] = social_code
 
         return JsonResponse(response_data)
 
