@@ -11,5 +11,4 @@ router.register(r'check', core_api.PostRequestViewSet)
 
 urlpatterns = [
     path(f"{PREFIX}/", include(router.urls)),
-    path('check/', core_api.PostApiView.as_view())
 ]

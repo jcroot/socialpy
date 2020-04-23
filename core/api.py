@@ -31,15 +31,8 @@ class PostSearchFilter(filters.SearchFilter):
         return super(PostSearchFilter, self).get_search_fields(view, request)
 
 
-class PostApiView(generics.ListCreateAPIView):
-    search_fields = ['=cic']
-    filter_backends = [PostSearchFilter]
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
 class PostRequestViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(social_code='NANG').order_by('-id')
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend, PostSearchFilter]
     search_fields = ['=cic']
