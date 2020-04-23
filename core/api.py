@@ -32,7 +32,7 @@ class PostSearchFilter(filters.SearchFilter):
 
 
 class PostApiView(generics.ListCreateAPIView):
-    search_fields = ['cic']
+    search_fields = ['=cic']
     filter_backends = [PostSearchFilter]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
