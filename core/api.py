@@ -42,4 +42,4 @@ class NangarekoViewSet(viewsets.ModelViewSet):
     queryset = Nangareko.objects.all()
     serializer_class = NangarekoSerializer
     filter_backends = [DjangoFilterBackend, PostSearchFilter]
-    search_fields = ['=cic', 'phone']
+    search_fields = ['=cic', '=phone']
