@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from core.models import Post
+from core.models import Post, Nangareko
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,3 +24,19 @@ class PostSerializer(serializers.ModelSerializer):
             'fullname',
             'social_code'
         )
+
+
+class NangarekoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Nangareko
+        fields = [
+            'cic',
+            'fullname',
+            'phone',
+            'carrier',
+            'observation',
+            'payment_confirmed',
+            'sent_sms',
+            'received_sms',
+            'requested'
+        ]

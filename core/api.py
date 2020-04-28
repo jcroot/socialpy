@@ -4,8 +4,8 @@ from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
-from core.models import Post
-from core.serializers import PostSerializer
+from core.models import Post, Nangareko
+from core.serializers import PostSerializer, NangarekoSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -36,3 +36,10 @@ class PostRequestViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend, PostSearchFilter]
     search_fields = ['=cic']
+
+
+class NangarekoViewSet(viewsets.ModelViewSet):
+    queryset = Nangareko.objects.all()
+    serializer_class = NangarekoSerializer
+    filter_backends = [DjangoFilterBackend, PostSearchFilter]
+    search_fields = ['=cic', 'phone']
