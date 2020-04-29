@@ -32,7 +32,7 @@ class NangarekoSerializer(serializers.ModelSerializer):
         fields = [
             'cic',
             'fullname',
-            'phone',
+            'alt_phone',
             'carrier',
             'observation',
             'payment_confirmed',

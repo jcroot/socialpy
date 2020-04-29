@@ -30,6 +30,16 @@ class PostSearchFilter(filters.SearchFilter):
     def get_search_fields(self, view, request):
         return super(PostSearchFilter, self).get_search_fields(view, request)
 
+    def filter_queryset(self, request, queryset, view):
+        params = request.query_params.get('search', None)
+        if len(params) > 8 and params[:1] == '0':
+            request = params[:0] + '595' + params[1:]
+            return queryset.filter(phone=request)
+        elif len(params) > 8 and params[:3] == '595':
+            return queryset.filter(phone=params)
+        else:
+            return queryset.filter(cic=params)
+
 
 class PostRequestViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()

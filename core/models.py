@@ -38,5 +38,8 @@ class Nangareko(models.Model):
     def __str__(self):
         return self.fullname
 
+    def alt_phone(self):
+        return '0%s' % self.phone[3:]
+
     class Meta:
         unique_together = ['cic', 'phone']
